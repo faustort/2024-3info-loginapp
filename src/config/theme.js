@@ -54,6 +54,7 @@ export const themeLight = {
 
 export const themeDark = {
   ...MD3DarkTheme,
+  dark: true,
   colors: {
     primary: "rgb(165, 200, 255)",
     onPrimary: "rgb(0, 49, 95)",

@@ -1,9 +1,7 @@
-import { MD3LightTheme, Provider } from "react-native-paper";
-import AppNavigator from "./src/navigation/AppNavigator";
-
-// note que criamos o arquivo src/config/theme.js
+import { Provider } from "react-native-paper";
 import { themeDark, themeLight } from "./src/config/theme";
 import { useColorScheme } from "react-native";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
   // pega o tema do dispositivo
@@ -11,14 +9,7 @@ export default function App() {
   // criação de tema
   // https://callstack.github.io/react-native-paper/docs/guides/theming/#creating-dynamic-theme-colors
   const isDarkMode = colorScheme === "dark";
-  
-  // let theme;
-  // if (isDarkMode) {
-  //   theme = themeDark;
-  // } else {
-  //   theme = themeLight;
-  // }
-  
+
   // operador ternário
   const theme = isDarkMode ? themeDark : themeLight;
 

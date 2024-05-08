@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { styles } from "../config/styles";
 
 export default function LoginScreen({ navigation }) {
@@ -12,7 +12,7 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <Surface style={styles.container}>
       <View style={styles.innerContainer}>
         <Text
           variant="headlineMedium"
@@ -45,6 +45,6 @@ export default function LoginScreen({ navigation }) {
           Faça seu cadastro
         </Button>
       </View>
-    </View>
+    </Surface>
   );
 }
