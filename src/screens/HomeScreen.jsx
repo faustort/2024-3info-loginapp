@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
 import { styles } from "../config/styles";
 

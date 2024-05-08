@@ -12,7 +12,15 @@ export default function RegisterScreen({ navigation }) {
   const [cep, setCep] = useState("");
   const [cidade, setCidade] = useState("");
   const [estado, setEstado] = useState("");
-  const [erro, setErro] = useState("");
+  const [erro, setErro] = useState({
+    email: false,
+    senha: false,
+    repetirSenha: false,
+    nome: false,
+    cep: false,
+    cidade: false,
+    estado: false,
+  });
   // Nome, Email, Senha, Repetir Senha
   // Endereço: Logradouro, CEP, Cidade, Estado
   // O que é LOGRADOURO? É um termo que designa um terreno ou um espaço anexo a uma habitação, usado para serventia da casa, ou ainda qualquer espaço público comum que pode ser usufruído por toda a população e reconhecido pela administração de um município, como largos, praças, ruas, jardins, parques, entre outros.
@@ -21,7 +29,49 @@ export default function RegisterScreen({ navigation }) {
     console.log("Fazer Registro");
     // o que precisa ser feito?
     // 1) Validar se todos os campos foram digitados
+    if (nome === "") {
+      setErro({ ...erro, nome: true });
+      return;
+    }
+    setErro({ ...erro, nome: false });
+    if (email === "") {
+      setErro({ ...erro, email: true });
+      return;
+    }
+    setErro({ ...erro, email: false });
+    if (senha === "") {
+      setErro({ ...erro, senha: true });
+      return;
+    }
+    setErro({ ...erro, senha: false });
+    if (repetirSenha === "") {
+      setErro({ ...erro, repetirSenha: true });
+      return;
+    }
+    setErro({ ...erro, repetirSenha: false });
+    if (cep === "") {
+      setErro({ ...erro, cep: true });
+      return;
+    }
+    setErro({ ...erro, cep: false });
+    if (cidade === "") {
+      setErro({ ...erro, cidade: true });
+      return;
+    }
+    setErro({ ...erro, cidade: false });
+    if (estado === "") {
+      setErro({ ...erro, estado: true });
+      return;
+    }
+    setErro({ ...erro, estado: false });
+
     // 2) Validar se as senhas são iguais
+    if (senha !== repetirSenha) {
+      setErro({ ...erro, senha: true, repetirSenha: true });
+      return;
+    }
+    setErro({ ...erro, senha: false, repetirSenha: false });
+    
     // 3) Enviar os dados para a API do Firestore junto ao Firebase Auth
     // 4) Tratar os erros
     // 5) Redirecionar para a tela de Login
@@ -56,12 +106,14 @@ export default function RegisterScreen({ navigation }) {
           value={nome}
           onChangeText={setNome}
           style={styles.input}
+          error={erro.nome}
         />
         <TextInput
           placeholder="Digite seu email"
           value={email}
           onChangeText={setEmail}
           style={styles.input}
+          error={erro.email}
         />
         <TextInput
           placeholder="Digite sua senha"
@@ -69,6 +121,7 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={setSenha}
           secureTextEntry
           style={styles.input}
+          error={erro.senha}
         />
         <TextInput
           placeholder="Repita sua senha"
@@ -76,6 +129,7 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={setRepetirSenha}
           secureTextEntry
           style={styles.input}
+          error={erro.repetirSenha}
         />
         <View
           style={{
@@ -91,12 +145,14 @@ export default function RegisterScreen({ navigation }) {
             keyboardType="numeric" // abre o teclado numérico no celular
             style={styles.input}
             maxLength={8} // máximo de 8 caracteres
+            error={erro.cep}
           />
           <TextInput
             placeholder="Logradouro"
             value={logradouro}
             onChangeText={setLogradouro}
             style={styles.input}
+            error={erro.logradouro}
           />
           <View
             style={{
@@ -112,6 +168,7 @@ export default function RegisterScreen({ navigation }) {
                 ...styles.input, // utilização do spread operator ou operador de propagação
                 width: "70%",
               }}
+              error={erro.cidade}
             />
             <TextInput
               placeholder="Estado"
@@ -122,6 +179,7 @@ export default function RegisterScreen({ navigation }) {
                 width: "30%",
               }}
               maxLength={2} // máximo de 2 caracteres
+              error={erro.estado}
             />
           </View>
         </View>

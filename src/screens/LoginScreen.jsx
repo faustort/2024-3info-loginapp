@@ -6,9 +6,23 @@ import { styles } from "../config/styles";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState({
+    email: false,
+    senha: false,
+  });
 
   function realizaLogin() {
     console.log("Fazer Login");
+    if (email === "") {
+      setErro({ ...erro, email: true });
+    } else {
+      setErro({ ...erro, email: false });
+    }
+    if (senha === "") {
+      setErro({ ...erro, senha: true });
+    } else {
+      setErro({ ...erro, senha: false });
+    }
   }
 
   return (
@@ -28,6 +42,7 @@ export default function LoginScreen({ navigation }) {
           onChangeText={setEmail}
           value={email}
           style={styles.input}
+          error={erro.email}
         />
         <TextInput
           placeholder="Digite sua senha"
@@ -35,6 +50,7 @@ export default function LoginScreen({ navigation }) {
           value={senha}
           secureTextEntry // faz com que o campo seja senha com *
           style={styles.input}
+          error={erro.senha}
         />
         <View>
           <Button onPress={realizaLogin} mode="contained">
