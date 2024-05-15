@@ -17,6 +17,7 @@ export default function AppNavigator() {
             title: "Login",
           }}
         />
+        
         <Stack.Screen
           name="RegisterScreen"
           component={RegisterScreen}

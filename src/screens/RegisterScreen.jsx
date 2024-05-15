@@ -2,6 +2,8 @@ import { View } from "react-native";
 import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import { styles } from "../config/styles";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -71,10 +73,26 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
     setErro({ ...erro, senha: false, repetirSenha: false });
-    
+
+    cadastrarNoFirebase();
+
     // 3) Enviar os dados para a API do Firestore junto ao Firebase Auth
     // 4) Tratar os erros
     // 5) Redirecionar para a tela de Login
+  }
+
+  async function cadastrarNoFirebase() {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      );
+      const user = userCredential.user;
+      console.log("Usuário cadastrado", user);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function buscaCEP() {
