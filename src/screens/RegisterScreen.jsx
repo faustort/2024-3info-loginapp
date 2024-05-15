@@ -3,7 +3,8 @@ import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import { styles } from "../config/styles";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -81,6 +82,7 @@ export default function RegisterScreen({ navigation }) {
     // 5) Redirecionar para a tela de Login
   }
 
+  // se for usar o ChatGPT lembre de dizer "use a versão MODULAR do Firebase ou Docs 8+"
   async function cadastrarNoFirebase() {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -90,8 +92,27 @@ export default function RegisterScreen({ navigation }) {
       );
       const user = userCredential.user;
       console.log("Usuário cadastrado", user);
+
+      const collectionRef = collection(db, "usuarios");
+
+      const docRef = await setDoc(
+        doc(collectionRef, user.uid), // função doc que dirá a uid do user como "chave primaria"
+        {
+          nome: nome,
+          logradouro: logradouro,
+          cep: cep,
+          cidade: cidade,
+          estado: estado,
+        }
+      );
     } catch (error) {
-      console.error(error);
+      if (error.code === "auth/email-already-in-use") {
+        console.error("Email já está cadastrado.");
+        // Adicione qualquer lógica adicional aqui, como mostrar uma mensagem ao usuário
+      } else {
+        console.error("Erro ao cadastrar usuário:", error);
+        // Adicione qualquer lógica adicional aqui, como mostrar uma mensagem ao usuário
+      }
     }
   }
 
