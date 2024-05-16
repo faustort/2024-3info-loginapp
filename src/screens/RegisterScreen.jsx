@@ -109,27 +109,52 @@ export default function RegisterScreen({ navigation }) {
     cadastrarNoFirebase();
   }
 
+  /**
+   * Cadastra o usuário no Firebase Authentication e salva os dados no Firestore
+   *
+   */
   async function cadastrarNoFirebase() {
     try {
+      // Cria o usuário no Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         senha
       );
+      // Assim que ele conseguiu criar o usuário, ele retorna o usuário
       const user = userCredential.user;
+
       console.log("Usuário cadastrado", user);
 
+      // vou começar o processo de inserir os dados do usuário em uma coleção
+      // no Firestore
+
+      // pego a referência da coleção
+      // como se fosse um SELECT usuarios
+      // o primeiro parâmetro é a referência do banco de dados
+      // quem é o DB
       const collectionRef = collection(db, "usuarios");
 
-      await setDoc(doc(collectionRef, user.uid), {
-        nome: nome,
-        logradouro: logradouro,
-        cep: cep,
-        cidade: cidade,
-        estado: estado,
-      });
+      // agora eu vou fazer a inserção dos dados
+      // o primeiro parâmetro de setDoc é doc
+      // dentro da função doc eu passo a referência da coleção
+      // o terceiro é os dados que eu quero inserir
+      await setDoc(
+        doc(
+          collectionRef, // referência da coleção "tabela"
+          user.uid // id do documento "como se fosse uma chave primária"
+        ),
+        {
+          nome: nome,
+          email: email,
+          logradouro: logradouro,
+          cep: cep,
+          cidade: cidade,
+          estado: estado,
+        }
+      );
 
-      // Redireciona para a tela de login após o cadastro bem-sucedido
+      // esperar setDoc terminar para redirecionar
       navigation.navigate("LoginScreen");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
