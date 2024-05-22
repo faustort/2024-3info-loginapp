@@ -33,12 +33,7 @@ export default function ListNotes() {
     <View>
       <FlatList
         data={tarefas}
-        renderItem={(item) => (
-          <View key={item.id}>
-            <Text>{item.data}</Text>
-            <Text>{item.descricao}</Text>
-          </View>
-        )}
+        renderItem={({ item }) => <Text>{item.descricao}</Text>}
         // keyExtractor={() => {}}
       />
     </View>
