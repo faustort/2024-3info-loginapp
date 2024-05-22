@@ -4,6 +4,8 @@ import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import SplashScreen from "../screens/SplashScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import NoteInsert from "../screens/NoteInsert";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,12 +39,23 @@ export default function AppNavigator() {
         />
         <Stack.Screen
           name="HomeScreen"
-          component={HomeScreen}
+          component={TabsNavigation}
           options={{
-            title: "Inicial",
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+const Tabs = createMaterialBottomTabNavigator();
+
+export function TabsNavigation() {
+  return (
+    <Tabs.Navigator>
+      <Tabs.Screen name="Insert" component={NoteInsert} />
+      <Tabs.Screen name="Home" component={HomeScreen} />
+    </Tabs.Navigator>
   );
 }
