@@ -3,17 +3,30 @@ import { TextInput } from "react-native-paper";
 import { Icon } from "react-native-paper";
 import { styles } from "../config/styles";
 import { Alert } from "react-native";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 export default function InsertNote() {
   const [text, setText] = useState("");
-  function handleSubmit() {
-    console.log(text);
-    if (text.length < 1) {
+  async function handleSubmit() {
+    try {
+      if (text.length < 1) {
         Alert.alert("Aviso", "Insira uma nota");
-      return;
-    }
-    if (text !== "") {
-      setText("");
+        return;
+      }
+      const colRef = collection(db, "tarefas");
+      const payload = {
+        descricao: text,
+        data: new Date(),
+      };
+
+      const docRef = await addDoc(colRef, payload);
+      console.log("Document written with ID: ", docRef.id);
+      if (text !== "") {
+        setText("");
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
   return (
