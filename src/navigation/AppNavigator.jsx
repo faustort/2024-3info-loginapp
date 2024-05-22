@@ -29,7 +29,6 @@ export default function AppNavigator() {
             headerLeft: () => null, // This removes the back button
           }}
         />
-
         <Stack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
