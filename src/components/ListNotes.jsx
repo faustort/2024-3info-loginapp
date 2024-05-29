@@ -1,8 +1,15 @@
+import { deleteDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { db } from "../config/firebase";
-import { Text } from "react-native-paper";
+import { List, Text } from "react-native-paper";
 
 export default function ListNotes() {
   const [tarefas, setTarefas] = useState();
@@ -29,11 +36,34 @@ export default function ListNotes() {
     };
   }, []);
 
+  function deleteTask(id) {
+    console.log("Deletando a tarefa com id", id);
+    const colRef = collection(db, "tarefas");
+    const docRef = doc(colRef, id);
+    deleteDoc(docRef);
+  }
+
+  const renderItem = ({ item }) => (
+    <List.Section>
+      <List.Subheader></List.Subheader>
+      <List.Item
+        title={item.descricao}
+        left={() => <List.Icon icon="check" />}
+        right={() => (
+          <Pressable onPress={() => deleteTask(item.id)}>
+            <List.Icon icon="delete" />
+          </Pressable>
+        )}
+      />
+    </List.Section>
+  );
+
   return (
-    <View>
+    <View style={{ flex: 1, width: "100%" }}>
       <FlatList
         data={tarefas}
-        renderItem={({ item }) => <Text>{item.descricao}</Text>}
+        renderItem={renderItem}
+        style={{ flex: 1, width: "100%" }}
         // keyExtractor={() => {}}
       />
     </View>

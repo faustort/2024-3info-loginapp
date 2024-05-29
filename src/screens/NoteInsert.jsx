@@ -6,12 +6,16 @@ import ListNotes from "../components/ListNotes";
 
 export default function NoteInsert() {
   return (
-    <Surface style={styles.container}>
-      <View style={styles.innerContainer}>
-        <View style={{ with: "100%" }}>
-          <InsertNote style={{ with: "100%" }} />
+    <Surface
+      style={{
+        ...styles.containerFull,
+      }}
+    >
+      <View style={{ ...styles.innerContainer, width: "100%" }}>
+        <View style={{ width: "100%" }}>
+          <InsertNote style={{ width: "100%" }} />
         </View>
-        <View>
+        <View style={{ flex: 1, width: "100%" }}>
           <ListNotes />
         </View>
       </View>

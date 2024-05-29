@@ -16,7 +16,9 @@ export default function SplashScreen({ navigation }) {
         navigation.navigate("LoginScreen");
       }
     });
-  }, []);
+  }, []); //componentDidMount
+
+  // useEffect(function) // componentDidUpdate
 
   return (
     <Surface style={styles.container}>
