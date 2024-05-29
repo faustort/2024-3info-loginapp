@@ -45,7 +45,6 @@ export default function ListNotes() {
 
   const renderItem = ({ item }) => (
     <List.Section>
-      <List.Subheader></List.Subheader>
       <List.Item
         title={item.descricao}
         left={() => <List.Icon icon="check" />}
